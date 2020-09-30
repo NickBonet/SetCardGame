@@ -35,6 +35,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2611278A25253B8A00DC792A /* Set */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Set;
+			sourceTree = "<group>";
+		};
 		261913242523FFB0007E0A05 = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +61,7 @@
 		2619132F2523FFB0007E0A05 /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				2611278A25253B8A00DC792A /* Set */,
 				261913302523FFB0007E0A05 /* AppDelegate.swift */,
 				261913322523FFB0007E0A05 /* SceneDelegate.swift */,
 				261913342523FFB0007E0A05 /* ViewController.swift */,
