@@ -10,11 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    @IBOutlet private var setCardButtons: [UIButton]!
+    
+    
+    @IBAction private func touchCard(_ sender: UIButton) {
+        if let cardNumber = setCardButtons.firstIndex(of: sender) {
+            print(cardNumber)
+        }
     }
-
-
+    
 }
 
