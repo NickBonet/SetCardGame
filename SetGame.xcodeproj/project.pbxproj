@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2611278C25253FBA00DC792A /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2611278B25253FBA00DC792A /* SetGame.swift */; };
 		261913312523FFB0007E0A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261913302523FFB0007E0A05 /* AppDelegate.swift */; };
 		261913332523FFB0007E0A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261913322523FFB0007E0A05 /* SceneDelegate.swift */; };
 		261913352523FFB0007E0A05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261913342523FFB0007E0A05 /* ViewController.swift */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2611278B25253FBA00DC792A /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		2619132D2523FFB0007E0A05 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		261913302523FFB0007E0A05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		261913322523FFB0007E0A05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +40,7 @@
 		2611278A25253B8A00DC792A /* Set */ = {
 			isa = PBXGroup;
 			children = (
+				2611278B25253FBA00DC792A /* SetGame.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			files = (
 				261913352523FFB0007E0A05 /* ViewController.swift in Sources */,
 				261913312523FFB0007E0A05 /* AppDelegate.swift in Sources */,
+				2611278C25253FBA00DC792A /* SetGame.swift in Sources */,
 				261913332523FFB0007E0A05 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
