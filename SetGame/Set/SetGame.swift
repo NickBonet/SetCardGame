@@ -12,6 +12,11 @@ class SetGame {
     
     public var score = 0
     
+    // Array for the main deck, cards on screen currently, and cards that are presently selected.
+    public var setDeck = [SetCard]()
+    public var setCardsOnScreen = [SetCard]()
+    public var setCardsSekected = [SetCard]()
+    
     public func cardTouched(at index: Int) {
         
     }
@@ -22,6 +27,31 @@ class SetGame {
     
     public func addThreeCards() {
         score.changeScore(value: -1)
+    }
+    
+    public init() {
+        buildSetDeck()
+        
+        // Since the cards are shuffled on deck build, take the first 12 from the deck
+        // and assign them to setCardsOnScreen.
+        for index in 1...12 {
+            setCardsOnScreen.append(setDeck.remove(at: index))
+        }
+    }
+    
+    // Assembles the Set deck of all possible combinations of attributes, and adds the cards to the main deck.
+    private func buildSetDeck() {
+        for color in SetCard.Coloring.all {
+            for shade in SetCard.Shade.all {
+                for shape in SetCard.Shape.all {
+                    for index in 1...3 {
+                        setDeck.append(SetCard(color: color, shade: shade, shape: shape, count: index))
+                    }
+                }
+            }
+        }
+        
+        setDeck.shuffle()
     }
 }
 

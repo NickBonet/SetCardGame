@@ -27,17 +27,21 @@ class ViewController: UIViewController {
     
     
     @IBAction private func startNewGame(_ sender: Any) {
+        // TODO: Placeholder for now.
         print("New game pressed!")
+        print("Set deck currently has \(game.setDeck.count) cards in the main deck.")
         updateGameView()
     }
     
     @IBAction private func addThreeCards(_ sender: Any) {
+        // TODO: Placeholder for now.
         print("+3 cards pressed!")
         game.addThreeCards()
         updateGameView()
     }
     
     private func updateGameView() {
+        // TODO: Placeholder for now.
         updateScoreLabel()
     }
     
