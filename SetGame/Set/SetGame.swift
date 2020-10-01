@@ -32,9 +32,9 @@ class SetGame {
     public init() {
         buildSetDeck()
         
-        // Since the cards are shuffled on deck build, take the first 12 from the deck
-        // and assign them to setCardsOnScreen.
-        for index in 1...12 {
+        // Since the cards are shuffled on deck build, take the first 24 from the deck
+        // and assign them to setCardsOnScreen. (12 visible, 12 hidden)
+        for index in 0...23 {
             setCardsOnScreen.append(setDeck.remove(at: index))
         }
     }
@@ -49,8 +49,7 @@ class SetGame {
                     }
                 }
             }
-        }
-        
+        }        
         setDeck.shuffle()
     }
 }

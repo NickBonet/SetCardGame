@@ -11,10 +11,13 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet private var setCardButtons: [UIButton]!
-    
     @IBOutlet private weak var scoreLabel: UILabel!
-    
     private lazy var game = SetGame()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateGameView()
+    }
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = setCardButtons.firstIndex(of: sender) {
@@ -29,7 +32,6 @@ class ViewController: UIViewController {
     @IBAction private func startNewGame(_ sender: Any) {
         // TODO: Placeholder for now.
         print("New game pressed!")
-        print("Set deck currently has \(game.setDeck.count) cards in the main deck.")
         updateGameView()
     }
     
@@ -41,12 +43,18 @@ class ViewController: UIViewController {
     }
     
     private func updateGameView() {
-        // TODO: Placeholder for now.
+        renderButtons()
         updateScoreLabel()
     }
     
     private func updateScoreLabel() {
         scoreLabel.text = "Score: \(game.score)"
+    }
+    
+    private func renderButtons() {
+        for index in setCardButtons.indices {
+            setCardButtons[index].setAttributedTitle(CardRender.renderButton(forCard: game.setDeck[index]), for: UIControl.State.normal)
+        }
     }
 }
 
