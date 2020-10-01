@@ -38,6 +38,9 @@ class ViewController: UIViewController {
     @IBAction private func addThreeCards(_ sender: Any) {
         // TODO: Placeholder for now.
         print("+3 cards pressed!")
+        for index in setCardButtons.indices {
+            setCardButtons[index].isHidden = false
+        }
         game.addThreeCards()
         updateGameView()
     }

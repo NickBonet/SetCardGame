@@ -7,25 +7,27 @@
 //
 
 import Foundation
+import UIKit
 
 class CardRender {
     
     public static func renderButton(forCard: SetCard) -> NSAttributedString {
-        return NSAttributedString(string: getShapeAndCount(from: forCard))
+        let attributes = buildAttributes(fromCard: forCard)
+        return NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
     }
 
-    private static func getShapeAndCount(from: SetCard) -> String {
+    private static func getShapeAndCount(fromCard: SetCard) -> String {
         var symbol = ""
-        switch from.shape {
+        switch fromCard.shape {
         case SetCard.Shape.triangle:
             symbol = "▲"
         case SetCard.Shape.circle:
             symbol = "●"
         case SetCard.Shape.square:
-            symbol = "◼"
+            symbol = "◼︎"
         }
         
-        switch from.count {
+        switch fromCard.count {
         case 1:
             return "\(symbol)"
         case 2:
@@ -34,6 +36,35 @@ class CardRender {
             return "\(symbol) \(symbol) \(symbol)"
         default:
             return ""
+        }
+    }
+    
+    private static func getColor(fromCard: SetCard) -> UIColor {
+        switch fromCard.color {
+        case SetCard.Coloring.red:
+            return UIColor.red
+        case SetCard.Coloring.blue:
+            return UIColor.blue
+        case SetCard.Coloring.green:
+            return UIColor.green
+        }
+    }
+    
+    private static func buildAttributes(fromCard: SetCard) -> [NSAttributedString.Key: Any] {
+        var attributes: [NSAttributedString.Key: Any] = [:]
+        switch fromCard.shade {
+        case SetCard.Shade.filled:
+            attributes[.strokeWidth] = -1
+            attributes[.foregroundColor] = getColor(fromCard: fromCard)
+            return attributes
+        case SetCard.Shade.striped:
+            attributes[.strokeWidth] = -1
+            attributes[.foregroundColor] = getColor(fromCard: fromCard).withAlphaComponent(0.25)
+            return attributes
+        case SetCard.Shade.empty:
+            attributes[.strokeWidth] = 5
+            attributes[.foregroundColor] = getColor(fromCard: fromCard)
+            return attributes
         }
     }
 }
