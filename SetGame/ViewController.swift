@@ -22,8 +22,6 @@ class ViewController: UIViewController {
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = setCardButtons.firstIndex(of: sender) {
             print("Card number \(cardNumber) pressed!")
-            sender.layer.borderWidth = 2.0
-            sender.layer.borderColor = UIColor.red.cgColor
         }
         updateGameView()
     }
@@ -37,10 +35,6 @@ class ViewController: UIViewController {
     
     @IBAction private func addThreeCards(_ sender: Any) {
         // TODO: Placeholder for now.
-        print("+3 cards pressed!")
-        for index in setCardButtons.indices {
-            setCardButtons[index].isHidden = false
-        }
         game.addThreeCards()
         updateGameView()
     }
@@ -61,3 +55,18 @@ class ViewController: UIViewController {
     }
 }
 
+extension UIButton {
+    public func setSelected() {
+        self.layer.borderWidth = 2.0
+        self.layer.borderColor = UIColor.red.cgColor
+    }
+    
+    public func isSelected() -> Bool {
+        return self.layer.borderWidth == 2.0
+    }
+    
+    public func setDeselected() {
+        self.layer.borderWidth = 0
+        self.layer.borderColor = nil
+    }
+}

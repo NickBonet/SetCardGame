@@ -12,13 +12,18 @@ class SetGame {
     
     public var score = 0
     
-    // Array for the main deck, cards on screen currently, and cards that are presently selected.
+    // Array for the main deck, cards on screen currently, and dictionary for the cards that are presently selected.
     public var setDeck = [SetCard]()
     public var setCardsOnScreen = [SetCard]()
-    public var setCardsSekected = [SetCard]()
+    public var setCardsSekected: [Int : SetCard] = [:]
     
-    public func cardTouched(at index: Int) {
-        
+    public func cardSelected(at index: Int) {
+        setCardsSekected[index] = setCardsOnScreen.remove(at: index)
+    }
+    
+    public func cardDeselected(at index: Int) {
+        let deselectedCard = setCardsSekected.removeValue(forKey: index)
+        setCardsOnScreen[index] = deselectedCard!
     }
     
     public func resetGame() {
