@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = setCardButtons.firstIndex(of: sender) {
             print("Card number \(cardNumber) pressed!")
+            game.cardSelected(at: cardNumber)
         }
         updateGameView()
     }
@@ -42,6 +43,9 @@ class ViewController: UIViewController {
     private func updateGameView() {
         renderButtons()
         updateScoreLabel()
+        print("Cards in deck: \(game.setDeck.count)")
+        print("Cards selected: \(game.setCardsSelected.keys.count)")
+        print("Cards left on screen: \(game.setCardsOnScreen.count)")
     }
     
     private func updateScoreLabel() {
@@ -50,7 +54,7 @@ class ViewController: UIViewController {
     
     private func renderButtons() {
         for index in setCardButtons.indices {
-            setCardButtons[index].setAttributedTitle(CardRender.renderButton(forCard: game.setDeck[index]), for: UIControl.State.normal)
+            CardRender.renderButton(forCard: game.setDeck[index], forButton: setCardButtons[index], selected: game.isCardSelected(at: index))
         }
     }
 }

@@ -14,16 +14,23 @@ class SetGame {
     
     // Array for the main deck, cards on screen currently, and dictionary for the cards that are presently selected.
     public var setDeck = [SetCard]()
-    public var setCardsOnScreen = [SetCard]()
-    public var setCardsSekected: [Int : SetCard] = [:]
+    public var setCardsOnScreen: [Int : SetCard] = [:]
+    public var setCardsSelected: [Int : SetCard] = [:]
     
     public func cardSelected(at index: Int) {
-        setCardsSekected[index] = setCardsOnScreen.remove(at: index)
+        if (!isCardSelected(at: index) && setCardsSelected.keys.count < 3) {
+            setCardsSelected[index] = setCardsOnScreen.removeValue(forKey: index)
+        } else {
+            if (setCardsSelected.keys.count < 3) { cardDeselected(at: index) }
+        }
     }
     
     public func cardDeselected(at index: Int) {
-        let deselectedCard = setCardsSekected.removeValue(forKey: index)
-        setCardsOnScreen[index] = deselectedCard!
+        setCardsOnScreen[index] = setCardsSelected.removeValue(forKey: index)
+    }
+    
+    public func isCardSelected(at index: Int) -> Bool {
+        return setCardsSelected.keys.contains(index)
     }
     
     public func resetGame() {
@@ -40,7 +47,7 @@ class SetGame {
         // Since the cards are shuffled on deck build, take the first 24 from the deck
         // and assign them to setCardsOnScreen. (12 visible, 12 hidden)
         for index in 0...23 {
-            setCardsOnScreen.append(setDeck.remove(at: index))
+            setCardsOnScreen[index] = setDeck.remove(at: index)
         }
     }
     

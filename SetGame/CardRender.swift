@@ -11,9 +11,13 @@ import UIKit
 
 class CardRender {
     
-    public static func renderButton(forCard: SetCard) -> NSAttributedString {
+    public static func renderButton(forCard: SetCard, forButton: UIButton, selected: Bool) {
         let attributes = buildAttributes(fromCard: forCard)
-        return NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
+        let title = NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
+        forButton.setAttributedTitle(title, for: UIControl.State.normal)
+        if (selected) {
+            forButton.setSelected()
+        } else { forButton.setDeselected() }
     }
 
     private static func getShapeAndCount(fromCard: SetCard) -> String {
