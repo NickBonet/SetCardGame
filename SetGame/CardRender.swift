@@ -11,13 +11,15 @@ import UIKit
 
 class CardRender {
     
-    public static func renderButton(forCard: SetCard, forButton: UIButton, selected: Bool) {
+    public static func renderButton(forCard: SetCard, forButton: UIButton, selected: Bool, matched: MatchState) {
         let attributes = buildAttributes(fromCard: forCard)
         let title = NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
         forButton.setAttributedTitle(title, for: UIControl.State.normal)
-        if (selected) {
-            forButton.setSelected()
-        } else { forButton.setDeselected() }
+        
+        if (selected && matched == MatchState.matched) { forButton.setBorder(color: UIColor.green.cgColor) }
+        else if (selected && matched == MatchState.unmatched) { forButton.setBorder(color: UIColor.red.cgColor) }
+        else if (selected && matched == MatchState.unchecked) { forButton.setBorder(color: UIColor.blue.cgColor) }
+        else { forButton.removeBorder() }
     }
 
     private static func getShapeAndCount(fromCard: SetCard) -> String {

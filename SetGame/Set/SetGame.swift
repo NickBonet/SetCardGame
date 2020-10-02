@@ -21,6 +21,9 @@ class SetGame {
         if (!isCardSelected(at: index) && setCardsSelected.keys.count < 3) {
             setCardsSelected[index] = setCardsOnScreen.removeValue(forKey: index)
         } else {
+            if (setCardsSelected.keys.count == 3) {
+                print("yep...")
+            }
             if (setCardsSelected.keys.count < 3) { cardDeselected(at: index) }
         }
     }
@@ -31,6 +34,14 @@ class SetGame {
     
     public func isCardSelected(at index: Int) -> Bool {
         return setCardsSelected.keys.contains(index)
+    }
+    
+    public func checkMatched(at index: Int) -> MatchState {
+        if (setCardsSelected.keys.count < 3) { return MatchState.unchecked }
+        else if (isCardSelected(at: index) && setCardsSelected.keys.count == 3) {
+            return isSet() ? MatchState.matched : MatchState.unmatched
+        }
+        else { return MatchState.unmatched }
     }
     
     public func resetGame() {
@@ -47,8 +58,12 @@ class SetGame {
         // Since the cards are shuffled on deck build, take the first 24 from the deck
         // and assign them to setCardsOnScreen. (12 visible, 12 hidden)
         for index in 0...23 {
-            setCardsOnScreen[index] = setDeck.remove(at: index)
+            setCardsOnScreen[index] = setDeck.removeFirst()
         }
+    }
+    
+    private func isSet() -> Bool {
+        return true
     }
     
     // Assembles the Set deck of all possible combinations of attributes, and adds the cards to the main deck.

@@ -21,12 +21,10 @@ class ViewController: UIViewController {
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = setCardButtons.firstIndex(of: sender) {
-            print("Card number \(cardNumber) pressed!")
             game.cardSelected(at: cardNumber)
         }
         updateGameView()
     }
-    
     
     @IBAction private func startNewGame(_ sender: Any) {
         // TODO: Placeholder for now.
@@ -41,11 +39,11 @@ class ViewController: UIViewController {
     }
     
     private func updateGameView() {
-        renderButtons()
-        updateScoreLabel()
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.keys.count)")
-        print("Cards left on screen: \(game.setCardsOnScreen.count)")
+        print("Cards left on screen: \(game.setCardsOnScreen.keys.count)")
+        renderButtons()
+        updateScoreLabel()
     }
     
     private func updateScoreLabel() {
@@ -54,22 +52,25 @@ class ViewController: UIViewController {
     
     private func renderButtons() {
         for index in setCardButtons.indices {
-            CardRender.renderButton(forCard: game.setDeck[index], forButton: setCardButtons[index], selected: game.isCardSelected(at: index))
+            if let card = game.setCardsOnScreen[index] ?? game.setCardsSelected[index] {
+                CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
+                                        selected: game.isCardSelected(at: index), matched: game.checkMatched(at: index))
+            }
         }
     }
 }
 
 extension UIButton {
-    public func setSelected() {
+    public func setBorder(color: CGColor) {
         self.layer.borderWidth = 2.0
-        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.borderColor = color
     }
     
     public func isSelected() -> Bool {
         return self.layer.borderWidth == 2.0
     }
     
-    public func setDeselected() {
+    public func removeBorder() {
         self.layer.borderWidth = 0
         self.layer.borderColor = nil
     }

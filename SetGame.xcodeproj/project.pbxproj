@@ -15,6 +15,7 @@
 		261913382523FFB0007E0A05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 261913362523FFB0007E0A05 /* Main.storyboard */; };
 		2619133A2523FFB2007E0A05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 261913392523FFB2007E0A05 /* Assets.xcassets */; };
 		26F5D38A25259B310001C23A /* CardRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F5D38925259B310001C23A /* CardRender.swift */; };
+		26FFFB662527EB9700BD0272 /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FFFB652527EB9700BD0272 /* MatchState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		261913392523FFB2007E0A05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2619133E2523FFB2007E0A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26F5D38925259B310001C23A /* CardRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRender.swift; sourceTree = "<group>"; };
+		26FFFB652527EB9700BD0272 /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +48,7 @@
 			children = (
 				2611278B25253FBA00DC792A /* SetGame.swift */,
 				2611278D25254D2200DC792A /* SetCard.swift */,
+				26FFFB652527EB9700BD0272 /* MatchState.swift */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 			files = (
 				2611278E25254D2200DC792A /* SetCard.swift in Sources */,
 				26F5D38A25259B310001C23A /* CardRender.swift in Sources */,
+				26FFFB662527EB9700BD0272 /* MatchState.swift in Sources */,
 				261913352523FFB0007E0A05 /* ViewController.swift in Sources */,
 				261913312523FFB0007E0A05 /* AppDelegate.swift in Sources */,
 				2611278C25253FBA00DC792A /* SetGame.swift in Sources */,
