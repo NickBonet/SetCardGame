@@ -10,16 +10,19 @@ import Foundation
 import UIKit
 
 class CardRender {
-    
+
     public static func renderButton(forCard: SetCard, forButton: UIButton, selected: Bool, matched: MatchState) {
         let attributes = buildAttributes(fromCard: forCard)
         let title = NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
         forButton.setAttributedTitle(title, for: UIControl.State.normal)
-        
-        if (selected && matched == MatchState.matched) { forButton.setBorder(color: UIColor.green.cgColor) }
-        else if (selected && matched == MatchState.unmatched) { forButton.setBorder(color: UIColor.red.cgColor) }
-        else if (selected && matched == MatchState.unchecked) { forButton.setBorder(color: UIColor.blue.cgColor) }
-        else { forButton.removeBorder() }
+
+        if selected && matched == MatchState.matched {
+            forButton.setBorder(color: UIColor.green.cgColor)
+        } else if selected && matched == MatchState.unmatched {
+            forButton.setBorder(color: UIColor.red.cgColor)
+        } else if selected && matched == MatchState.unchecked {
+            forButton.setBorder(color: UIColor.blue.cgColor)
+        } else { forButton.removeBorder() }
     }
 
     private static func getShapeAndCount(fromCard: SetCard) -> String {
@@ -32,7 +35,7 @@ class CardRender {
         case SetCard.Shape.square:
             symbol = "◼︎"
         }
-        
+
         switch fromCard.count {
         case 1:
             return "\(symbol)"
@@ -44,7 +47,7 @@ class CardRender {
             return ""
         }
     }
-    
+
     private static func getColor(fromCard: SetCard) -> UIColor {
         switch fromCard.color {
         case SetCard.Coloring.red:
@@ -55,7 +58,7 @@ class CardRender {
             return UIColor.green
         }
     }
-    
+
     private static func buildAttributes(fromCard: SetCard) -> [NSAttributedString.Key: Any] {
         var attributes: [NSAttributedString.Key: Any] = [:]
         switch fromCard.shade {

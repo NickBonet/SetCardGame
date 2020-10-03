@@ -14,6 +14,7 @@
 		261913352523FFB0007E0A05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261913342523FFB0007E0A05 /* ViewController.swift */; };
 		261913382523FFB0007E0A05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 261913362523FFB0007E0A05 /* Main.storyboard */; };
 		2619133A2523FFB2007E0A05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 261913392523FFB2007E0A05 /* Assets.xcassets */; };
+		2620DC5D2528D7B20034639E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 2620DC5C2528D7B20034639E /* .swiftlint.yml */; };
 		26F5D38A25259B310001C23A /* CardRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F5D38925259B310001C23A /* CardRender.swift */; };
 		26FFFB662527EB9700BD0272 /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FFFB652527EB9700BD0272 /* MatchState.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		261913372523FFB0007E0A05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		261913392523FFB2007E0A05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2619133E2523FFB2007E0A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2620DC5C2528D7B20034639E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = SetGame/.swiftlint.yml; sourceTree = "<group>"; };
 		26F5D38925259B310001C23A /* CardRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRender.swift; sourceTree = "<group>"; };
 		26FFFB652527EB9700BD0272 /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -56,6 +58,7 @@
 		261913242523FFB0007E0A05 = {
 			isa = PBXGroup;
 			children = (
+				2620DC5C2528D7B20034639E /* .swiftlint.yml */,
 				2619132F2523FFB0007E0A05 /* SetGame */,
 				2619132E2523FFB0007E0A05 /* Products */,
 			);
@@ -102,6 +105,7 @@
 				261913292523FFB0007E0A05 /* Sources */,
 				2619132A2523FFB0007E0A05 /* Frameworks */,
 				2619132B2523FFB0007E0A05 /* Resources */,
+				2620DC5B2528D68D0034639E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -150,12 +154,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2620DC5D2528D7B20034639E /* .swiftlint.yml in Resources */,
 				2619133A2523FFB2007E0A05 /* Assets.xcassets in Resources */,
 				261913382523FFB0007E0A05 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2620DC5B2528D68D0034639E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint autocorrect\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		261913292523FFB0007E0A05 /* Sources */ = {

@@ -8,27 +8,27 @@
 
 import Foundation
 
-struct SetCard : Equatable {
-    
+struct SetCard: Equatable {
+
     let color: Coloring
     let shade: Shade
     let shape: Shape
     var count: Int
-    
+
     enum Coloring {
         case red
         case blue
         case green
         static let all = [red, green, blue]
     }
-    
+
     enum Shade {
         case empty
         case filled
         case striped
         static let all = [empty, filled, striped]
     }
-    
+
     enum Shape {
         case triangle
         case circle
