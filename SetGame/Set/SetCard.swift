@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SetCard: Equatable {
+struct SetCard {
 
     let color: Coloring
     let shade: Shade

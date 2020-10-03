@@ -81,7 +81,7 @@ class SetGame {
                     setCardsOnScreen[setCardsOnScreen.keys.count + setCardsSelected.keys.count] = setDeck.removeFirst()
                 }
             }
-            // If there is a mismatch,
+            // If there is a mismatch, deselect the cards.
             if setCardsSelected.keys.count == 3 && !isSet() { cleanMismatch() }
         }
     }
@@ -91,8 +91,21 @@ class SetGame {
     }
 
     public func isSet() -> Bool {
-        // TODO: Implement actual matching logic
         if setCardsSelected.keys.count == 3 {
+            let cards = Array(setCardsSelected.map {$0.value})
+            // Test whether each attribute of the 3 cards are all equal or all unique
+            if (!((cards[0].color == cards[1].color) && (cards[1].color == cards[2].color) || (cards[0].color != cards[1].color) && (cards[1].color != cards[2].color) && (cards[0].color != cards[2].color))) {
+                return false
+            }
+            if (!((cards[0].shape == cards[1].shape) && (cards[1].shape == cards[2].shape) || (cards[0].shape != cards[1].shape) && (cards[1].shape != cards[2].shape) && (cards[0].shape != cards[2].shape))) {
+                return false
+            }
+            if (!((cards[0].shade == cards[1].shade) && (cards[1].shade == cards[2].shade) || (cards[0].shade != cards[1].shade) && (cards[1].shade != cards[2].shade) && (cards[0].shade != cards[2].shade))) {
+                return false
+            }
+            if (!((cards[0].count == cards[1].count) && (cards[1].count == cards[2].count) || (cards[0].count != cards[1].count) && (cards[1].count != cards[2].count) && (cards[0].count != cards[2].count))) {
+                return false
+            }
             return true
         } else { return false }
     }
@@ -144,6 +157,6 @@ class SetGame {
 extension Int {
     // Safely change the score without dipping into negative values.
     public mutating func changeScore(value: Int) {
-        if value > 0 || self >= abs(value) { self += value }
+        if value > 0 || self >= abs(value) { self += value } else if self <= abs(value) { self = 0 }
     }
 }
