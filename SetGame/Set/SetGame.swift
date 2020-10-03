@@ -17,19 +17,20 @@ class SetGame {
     public var setCardsOnScreen: [Int : SetCard] = [:]
     public var setCardsSelected: [Int : SetCard] = [:]
     
-    public func cardSelected(at index: Int) {
+    public func cardTouched(at index: Int) {
         if (!isCardSelected(at: index) && setCardsSelected.keys.count < 3) {
-            setCardsSelected[index] = setCardsOnScreen.removeValue(forKey: index)
-        } else {
-            if (setCardsSelected.keys.count == 3) {
-                print("yep...")
+            cardSelected(at: index)
+        } else if (setCardsSelected.keys.count == 3) {
+                if (isSet()) {
+                    
+                }
+                else {
+                    setCardsSelected.forEach { setCardsOnScreen[$0] = $1 }
+                    setCardsSelected.removeAll()
+                }
+                cardSelected(at: index)
             }
-            if (setCardsSelected.keys.count < 3) { cardDeselected(at: index) }
-        }
-    }
-    
-    public func cardDeselected(at index: Int) {
-        setCardsOnScreen[index] = setCardsSelected.removeValue(forKey: index)
+        else if (setCardsSelected.keys.count < 3) { setCardsOnScreen[index] = setCardsSelected.removeValue(forKey: index) }
     }
     
     public func isCardSelected(at index: Int) -> Bool {
@@ -63,7 +64,11 @@ class SetGame {
     }
     
     private func isSet() -> Bool {
-        return true
+        return false
+    }
+    
+    private func cardSelected(at index: Int) {
+        setCardsSelected[index] = setCardsOnScreen.removeValue(forKey: index)
     }
     
     // Assembles the Set deck of all possible combinations of attributes, and adds the cards to the main deck.

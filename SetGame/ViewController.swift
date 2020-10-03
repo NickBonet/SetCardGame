@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = setCardButtons.firstIndex(of: sender) {
-            game.cardSelected(at: cardNumber)
+            game.cardTouched(at: cardNumber)
         }
         updateGameView()
     }
