@@ -22,7 +22,8 @@ class SetGame {
             cardSelected(at: index)
         } else if (setCardsSelected.keys.count == 3) {
                 if (isSet()) {
-                    
+                    setCardsSelected.removeAll()
+                    // TODO: Finish this
                 }
                 else {
                     setCardsSelected.forEach { setCardsOnScreen[$0] = $1 }
@@ -46,24 +47,27 @@ class SetGame {
     }
     
     public func resetGame() {
-        
+        // TODO: Finish this
     }
     
     public func addThreeCards() {
+        // TODO: Finish this
         score.changeScore(value: -1)
+        //if (setDeck.count >= 3 ) {
+        //}
     }
     
     public init() {
         buildSetDeck()
-        
-        // Since the cards are shuffled on deck build, take the first 24 from the deck
-        // and assign them to setCardsOnScreen. (12 visible, 12 hidden)
-        for index in 0...23 {
+        // Since the cards are shuffled on deck build, take the first 12 from the deck
+        // and assign them to setCardsOnScreen.
+        for index in 0...11 {
             setCardsOnScreen[index] = setDeck.removeFirst()
         }
     }
     
     private func isSet() -> Bool {
+        // TODO: Implement actual matching logic
         return false
     }
     

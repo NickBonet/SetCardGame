@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet private var setCardButtons: [UIButton]!
     @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet weak var addThreeCards: UIButton!
     private lazy var game = SetGame()
     
     override func viewDidLoad() {
@@ -56,6 +57,11 @@ class ViewController: UIViewController {
                 CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
                                         selected: game.isCardSelected(at: index), matched: game.checkMatched(at: index))
             }
+            else { setCardButtons[index].isHidden = true }
+        }
+        if (game.setDeck.count == 0) {
+            addThreeCards.isEnabled = false
+            addThreeCards.alpha = 0.5
         }
     }
 }
