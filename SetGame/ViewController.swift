@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     private func updateGameView() {
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.keys.count)")
-        print("Cards left on screen: \(game.setCardsOnScreen.keys.count)")
+        print("Cards left unselected: \(game.setCardsOnScreen.keys.count)")
         renderButtons()
         updateScoreLabel()
     }

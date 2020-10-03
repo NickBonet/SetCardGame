@@ -18,19 +18,32 @@ class SetGame {
     public var setCardsSelected: [Int : SetCard] = [:]
     
     public func cardTouched(at index: Int) {
+        // If the card's not already selected AND there are less than 3 cards selected, select the card.
         if (!isCardSelected(at: index) && setCardsSelected.keys.count < 3) {
             cardSelected(at: index)
-        } else if (setCardsSelected.keys.count == 3) {
+        }
+        // If there are 3 selected cards already, time to do some Set checking.
+        else if (setCardsSelected.keys.count == 3) {
+                // If there is a Set, replace the cards with new ones from the main deck.
                 if (isSet()) {
-                    setCardsSelected.removeAll()
-                    // TODO: Finish this
+                    // If the selected card is not currently part of the match, select the card and cleanup the matched cards.
+                    if (!setCardsSelected.keys.contains(index)) {
+                        cardSelected(at: index)
+                        setCardsSelected.forEach { if ($0.key != index) { cleanupSelected(for: $0.key) } }
+                    } else { // If the card selected is part of the match, ignore and just cleanup the matched cards.
+                        setCardsSelected.forEach { cleanupSelected(for: $0.key) }
+                    }
+                    score.changeScore(value: 3)
                 }
+                // If there's not a Set, deselect the cards and select the card at index.
                 else {
                     setCardsSelected.forEach { setCardsOnScreen[$0] = $1 }
                     setCardsSelected.removeAll()
+                    score.changeScore(value: -2)
+                    cardSelected(at: index)
                 }
-                cardSelected(at: index)
             }
+        // If there's less than 3 cards selected, go ahead and deselect the current card.
         else if (setCardsSelected.keys.count < 3) { setCardsOnScreen[index] = setCardsSelected.removeValue(forKey: index) }
     }
     
@@ -68,14 +81,21 @@ class SetGame {
     
     private func isSet() -> Bool {
         // TODO: Implement actual matching logic
-        return false
+        return true
     }
     
     private func cardSelected(at index: Int) {
         setCardsSelected[index] = setCardsOnScreen.removeValue(forKey: index)
     }
     
+    // Handles cleaning up selected dictionary on match and, if able to, replacing the card from deck.
+    private func cleanupSelected(for index: Int) {
+        setCardsSelected.removeValue(forKey: index)
+        if (setDeck.count != 0) { setCardsOnScreen[index] = setDeck.removeFirst() }
+    }
+    
     // Assembles the Set deck of all possible combinations of attributes, and adds the cards to the main deck.
+    // Also shuffles the deck for us.
     private func buildSetDeck() {
         for color in SetCard.Coloring.all {
             for shade in SetCard.Shade.all {
@@ -91,6 +111,7 @@ class SetGame {
 }
 
 extension Int {
+    // Safely change the score without dipping into negative values.
     public mutating func changeScore(value: Int) {
         if (value > 0 || self >= abs(value) ) { self += value }
     }
