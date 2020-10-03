@@ -31,17 +31,14 @@ class SetGame {
                     // select the card and cleanup the matched cards.
                     if !setCardsSelected.keys.contains(index) {
                         cardSelected(at: index)
-                        setCardsSelected.forEach { if $0.key != index { cleanupSelected(for: $0.key) } }
+                        setCardsSelected.forEach { if $0.key != index { cleanMatch(for: $0.key) } }
                     } else { // If the card selected is part of the match, ignore and just cleanup the matched cards.
-                        setCardsSelected.forEach { cleanupSelected(for: $0.key) }
+                        setCardsSelected.forEach { cleanMatch(for: $0.key) }
                     }
-                    score.changeScore(value: 3)
                 }
                 // If there's not a Set, deselect the cards and select the card at index.
                 else {
-                    setCardsSelected.forEach { setCardsOnScreen[$0] = $1 }
-                    setCardsSelected.removeAll()
-                    score.changeScore(value: -2)
+                    cleanMismatch()
                     cardSelected(at: index)
                 }
             }
@@ -51,10 +48,12 @@ class SetGame {
         }
     }
 
+    // Returns the state of whether a specific card is selected or not.
     public func isCardSelected(at index: Int) -> Bool {
         return setCardsSelected.keys.contains(index)
     }
 
+    // Returns whether or not a given card is part of a match.
     public func checkMatchedState(at index: Int) -> MatchState {
         if setCardsSelected.keys.count < 3 {
             return MatchState.unchecked
@@ -63,29 +62,39 @@ class SetGame {
         } else { return MatchState.unmatched }
     }
 
+    // Resets the game instance.
     public func resetGame() {
-        // TODO: Finish this
+        score = 0
+        buildSetDeck()
     }
 
     public func addThreeCards() {
-        // TODO: Finish this
-        score.changeScore(value: -1)
-        //if (setDeck.count >= 3 ) {
-        //}
+        // If there's currently a Set match on screen, just replace those cards.
+        if isSet() {
+            setCardsSelected.forEach { cleanMatch(for: $0.key) }
+        } else if setDeck.count != 0 {
+            score.changeScore(value: -1)
+            for _ in 1...3 {
+                if setCardsSelected.keys.count == 3 && !isSet() {
+                    setCardsOnScreen[setCardsOnScreen.keys.count + 3] = setDeck.removeFirst()
+                } else {
+                    setCardsOnScreen[setCardsOnScreen.keys.count + setCardsSelected.keys.count] = setDeck.removeFirst()
+                }
+            }
+            // If there is a mismatch,
+            if setCardsSelected.keys.count == 3 && !isSet() { cleanMismatch() }
+        }
     }
 
     public init() {
         buildSetDeck()
-        // Since the cards are shuffled on deck build, take the first 12 from the deck
-        // and assign them to setCardsOnScreen.
-        for index in 0...11 {
-            setCardsOnScreen[index] = setDeck.removeFirst()
-        }
     }
 
-    private func isSet() -> Bool {
+    public func isSet() -> Bool {
         // TODO: Implement actual matching logic
-        return true
+        if setCardsSelected.keys.count == 3 {
+            return true
+        } else { return false }
     }
 
     private func cardSelected(at index: Int) {
@@ -93,14 +102,27 @@ class SetGame {
     }
 
     // Handles cleaning up selected dictionary on match and, if able to, replacing the card from deck.
-    private func cleanupSelected(for index: Int) {
+    private func cleanMatch(for index: Int) {
+        // Since this is ran/looped 3 times whenever a match is being checked, handle scoring here.
+        // +3 points total for a match.
+        score.changeScore(value: 1)
         setCardsSelected.removeValue(forKey: index)
         if setDeck.count != 0 { setCardsOnScreen[index] = setDeck.removeFirst() }
+    }
+
+    // Handles cleaning up the selected dictionary on mismatch. Also takes care of reducing score for mismatch.
+    private func cleanMismatch() {
+        setCardsSelected.forEach { setCardsOnScreen[$0] = $1 }
+        setCardsSelected.removeAll()
+        score.changeScore(value: -2)
     }
 
     // Assembles the Set deck of all possible combinations of attributes, and adds the cards to the main deck.
     // Also shuffles the deck for us.
     private func buildSetDeck() {
+        setDeck.removeAll()
+        setCardsOnScreen.removeAll()
+        setCardsSelected.removeAll()
         for color in SetCard.Coloring.all {
             for shade in SetCard.Shade.all {
                 for shape in SetCard.Shape.all {
@@ -111,6 +133,11 @@ class SetGame {
             }
         }
         setDeck.shuffle()
+        // Since the cards are shuffled, take the first 12 from the deck
+        // and assign them to setCardsOnScreen.
+        for index in 0...11 {
+            setCardsOnScreen[index] = setDeck.removeFirst()
+        }
     }
 }
 

@@ -28,13 +28,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func startNewGame(_ sender: Any) {
-        // TODO: Placeholder for now.
-        print("New game pressed!")
+        game.resetGame()
+        update3CardsButton(true)
         updateGameView()
     }
 
     @IBAction private func addThreeCards(_ sender: Any) {
-        // TODO: Placeholder for now.
         game.addThreeCards()
         updateGameView()
     }
@@ -51,6 +50,13 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
 
+    private func update3CardsButton(_ enabled: Bool) {
+        addThreeCards.isEnabled = enabled
+        if enabled {
+            addThreeCards.alpha = 1
+        } else { addThreeCards.alpha = 0.5 }
+    }
+
     private func renderButtons() {
         for index in setCardButtons.indices {
             if let card = game.setCardsOnScreen[index] ?? game.setCardsSelected[index] {
@@ -58,9 +64,14 @@ class ViewController: UIViewController {
                                 selected: game.isCardSelected(at: index), matched: game.checkMatchedState(at: index))
             } else { setCardButtons[index].isHidden = true }
         }
-        if game.setDeck.count == 0 {
-            addThreeCards.isEnabled = false
-            addThreeCards.alpha = 0.5
+        // If Set deck is empty OR the amount of selected cards + on screen cards is 24, disable the button.
+        // Assuming that the selected cards are not a match of course.
+        if game.setDeck.count == 0 || (game.setCardsOnScreen.keys.count + game.setCardsSelected.keys.count == 24 && !game.isSet()) {
+            update3CardsButton(false)
+        }
+        // If there are 24 cards between onScreen and Selected AND there is a match, enable the button.
+        else if game.setCardsOnScreen.keys.count + game.setCardsSelected.keys.count == 24 && game.isSet() {
+            update3CardsButton(true)
         }
     }
 }
@@ -69,10 +80,6 @@ extension UIButton {
     public func setBorder(color: CGColor) {
         self.layer.borderWidth = 2.0
         self.layer.borderColor = color
-    }
-
-    public func isSelected() -> Bool {
-        return self.layer.borderWidth == 2.0
     }
 
     public func removeBorder() {

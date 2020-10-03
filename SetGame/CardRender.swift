@@ -15,6 +15,7 @@ class CardRender {
         let attributes = buildAttributes(fromCard: forCard)
         let title = NSAttributedString(string: getShapeAndCount(fromCard: forCard), attributes: attributes)
         forButton.setAttributedTitle(title, for: UIControl.State.normal)
+        forButton.isHidden = false
 
         if selected && matched == MatchState.matched {
             forButton.setBorder(color: UIColor.green.cgColor)
