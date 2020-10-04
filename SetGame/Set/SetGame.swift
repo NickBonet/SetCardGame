@@ -71,7 +71,7 @@ class SetGame {
     public func addThreeCards() {
         // If there's currently a Set match on screen, just replace those cards.
         if isSet() {
-            setCardsSelected.forEach { cleanMatch(for: $0.key) }
+            setCardsSelected.forEach { cleanMatch(for: $0.key, true) }
         } else if setDeck.count != 0 {
             score.changeScore(value: -1)
             for _ in 1...3 {
@@ -94,6 +94,7 @@ class SetGame {
         if setCardsSelected.keys.count == 3 {
             let cards = Array(setCardsSelected.map {$0.value})
             // Test whether each attribute of the 3 cards are all equal or all unique
+            /*
             if (!((cards[0].color == cards[1].color) && (cards[1].color == cards[2].color) || (cards[0].color != cards[1].color) && (cards[1].color != cards[2].color) && (cards[0].color != cards[2].color))) {
                 return false
             }
@@ -105,9 +106,13 @@ class SetGame {
             }
             if (!((cards[0].count == cards[1].count) && (cards[1].count == cards[2].count) || (cards[0].count != cards[1].count) && (cards[1].count != cards[2].count) && (cards[0].count != cards[2].count))) {
                 return false
-            }
+            }*/
             return true
         } else { return false }
+    }
+    
+    private func allEqual(_ item1: AnyObject, item2: AnyObject, item3: AnyObject) -> Bool {
+       return (item1 === item2) && (item2 === item3)
     }
 
     private func cardSelected(at index: Int) {
@@ -115,12 +120,18 @@ class SetGame {
     }
 
     // Handles cleaning up selected dictionary on match and, if able to, replacing the card from deck.
-    private func cleanMatch(for index: Int) {
+    private func cleanMatch(for index: Int, _ threeCardsPressed: Bool = false) {
         // Since this is ran/looped 3 times whenever a match is being checked, handle scoring here.
         // +3 points total for a match.
         score.changeScore(value: 1)
         setCardsSelected.removeValue(forKey: index)
-        if setDeck.count != 0 { setCardsOnScreen[index] = setDeck.removeFirst() }
+        if setDeck.count != 0 && index < 12 {
+            setCardsOnScreen[index] = setDeck.removeFirst()
+        }
+        // If this is called from addThreeCards(), allows for replacing any index.
+        else if setDeck.count != 0 && threeCardsPressed == true {
+            setCardsOnScreen[index] = setDeck.removeFirst()
+        }
     }
 
     // Handles cleaning up the selected dictionary on mismatch. Also takes care of reducing score for mismatch.
