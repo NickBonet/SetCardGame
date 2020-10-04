@@ -29,7 +29,6 @@ class ViewController: UIViewController {
 
     @IBAction private func startNewGame(_ sender: Any) {
         game.resetGame()
-        update3CardsButton(true)
         updateGameView()
     }
 
@@ -40,38 +39,31 @@ class ViewController: UIViewController {
 
     private func updateGameView() {
         print("Cards in deck: \(game.setDeck.count)")
-        print("Cards selected: \(game.setCardsSelected.keys.count)")
-        print("Cards left unselected: \(game.setCardsOnScreen.keys.count)")
-        renderButtons()
+        print("Cards selected: \(game.setCardsSelected.count)")
+        print("Cards left unselected: \(game.setCardsOnScreen.count)")
+        renderCards()
         updateScoreLabel()
+        update3CardsButton()
     }
 
     private func updateScoreLabel() {
         scoreLabel.text = "Score: \(game.score)"
     }
 
-    private func update3CardsButton(_ enabled: Bool) {
-        addThreeCards.isEnabled = enabled
-        if enabled {
-            addThreeCards.alpha = 1
-        } else { addThreeCards.alpha = 0.5 }
+    private func update3CardsButton() {
+        if game.setDeck.count == 0 || (game.setCardsOnScreen.count == 24 && !game.isSet()) {
+            addThreeCards.isEnabled = false
+        } else { addThreeCards.isEnabled = true }
+        addThreeCards.alpha = (addThreeCards.isEnabled == true) ? 1 : 0.5
     }
 
-    private func renderButtons() {
+    private func renderCards() {
         for index in setCardButtons.indices {
-            if let card = game.setCardsOnScreen[index] ?? game.setCardsSelected[index] {
+            if game.setCardsOnScreen.indices.contains(index) {
+                let card = game.setCardsOnScreen[index]
                 CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
-                                selected: game.isCardSelected(at: index), matched: game.checkMatchedState(at: index))
+                                        selected: game.isCardSelected(card), matched: game.isCardMatched(card))
             } else { setCardButtons[index].isHidden = true }
-        }
-        // If Set deck is empty OR the amount of selected cards + on screen cards is 24, disable the button.
-        // Assuming that the selected cards are not a match of course.
-        if game.setDeck.count == 0 || (game.setCardsOnScreen.keys.count + game.setCardsSelected.keys.count == 24 && !game.isSet()) {
-            update3CardsButton(false)
-        }
-        // If there are 24 cards between onScreen and Selected AND there is a match, enable the button.
-        else if game.setCardsOnScreen.keys.count + game.setCardsSelected.keys.count == 24 && game.isSet() {
-            update3CardsButton(true)
         }
     }
 }
