@@ -11,12 +11,12 @@ import UIKit
 @IBDesignable class SetCardVkew: UIView {
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
-    @IBInspectable private var shapeColor: UIColor = UIColor.green
-    private var shapeShade: SetCard.Shade = SetCard.Shade.striped
+    @IBInspectable private var shapeColor: UIColor = UIColor.red
+    private var shapeShade: SetCard.Shade = SetCard.Shade.filled
     private var shape: SetCard.Shape = SetCard.Shape.squiggle
     private var numberOfShapes = 3
     
-    // Required initializers for parent UIView.
+    // Required initializers for subclassing UIView.
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -85,7 +85,7 @@ import UIKit
         } else { return UIColor.white }
     }
     
-    // Takes care of actually drawing the shapes on the view, including coloring and shading.
+    // Takes care of showing the shapes on the view, including coloring and shading.
     private func drawPath(_ path: UIBezierPath) {
         shapeColor.setStroke()
         let finalPath = setShading(path)
