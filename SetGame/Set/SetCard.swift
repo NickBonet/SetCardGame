@@ -17,9 +17,9 @@ struct SetCard: Equatable {
 
     enum Coloring {
         case red
-        case blue
         case green
-        static let all = [red, green, blue]
+        case purple
+        static let all = [red, purple, green]
     }
 
     enum Shade {
@@ -30,9 +30,9 @@ struct SetCard: Equatable {
     }
 
     enum Shape {
-        case triangle
-        case circle
-        case square
-        static let all = [triangle, circle, square]
+        case squiggle
+        case diamond
+        case oval
+        static let all = [squiggle, diamond, oval]
     }
 }

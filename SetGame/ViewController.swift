@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.count)")
         print("Cards left unselected: \(game.setCardsOnScreen.count)")
-        renderCards()
+        //renderCards()
         updateScoreLabel()
         update3CardsButton()
     }
@@ -61,8 +61,8 @@ class ViewController: UIViewController {
         for index in setCardButtons.indices {
             if game.setCardsOnScreen.indices.contains(index) {
                 let card = game.setCardsOnScreen[index]
-                CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
-                                        selected: game.isCardSelected(card), matched: game.isCardMatched(card))
+                //CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
+                  //                      selected: game.isCardSelected(card), matched: game.isCardMatched(card))
             } else { setCardButtons[index].isHidden = true }
         }
     }
