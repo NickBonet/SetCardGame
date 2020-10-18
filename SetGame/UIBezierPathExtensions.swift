@@ -19,13 +19,14 @@ extension UIBezierPath {
         diamond.close()
         self.appendShapes(diamond, count, bounds)
     }
-    
+
     public func drawOval(_ bounds: CGRect, _ count: Int) {
-        let rect = CGRect(x: bounds.midX * 0.80, y: bounds.size.height * 0.05, width: bounds.size.width * 0.20, height: bounds.maxY * 0.9)
+        let rect = CGRect(x: bounds.midX * 0.80, y: bounds.size.height * 0.05,
+                          width: bounds.size.width * 0.20, height: bounds.maxY * 0.9)
         let oval = UIBezierPath(roundedRect: rect, cornerRadius: 25)
         self.appendShapes(oval, count, bounds)
     }
-    
+
     public func drawSquiggle(_ bounds: CGRect, _ count: Int) {
         let squiggle = UIBezierPath()
         let topEndpoint = CGPoint(x: bounds.midX, y: bounds.size.height * 0.05)
@@ -40,26 +41,26 @@ extension UIBezierPath {
         squiggle.apply(CGAffineTransform(translationX: bounds.size.width * 0.09, y: 0))
         self.appendShapes(squiggle, count, bounds)
     }
-    
+
     // Takes care of duplicating shapes if needed. Scales when card is resized too!
     private func appendShapes(_ path: UIBezierPath, _ count: Int, _ bounds: CGRect) {
         switch count {
         case 1:
             self.append(path)
         case 2:
-            let path2 = path.copy() as! UIBezierPath
+            let path2 = path.copy() as? UIBezierPath
             path.apply(CGAffineTransform(translationX: (bounds.midX * 0.3), y: 0))
-            path2.apply(CGAffineTransform(translationX: -(bounds.midX * 0.3), y: 0))
+            path2!.apply(CGAffineTransform(translationX: -(bounds.midX * 0.3), y: 0))
             self.append(path)
-            self.append(path2)
+            self.append(path2!)
         case 3:
-            let path2 = path.copy() as! UIBezierPath
-            let path3 = path.copy() as! UIBezierPath
-            path2.apply(CGAffineTransform(translationX: (bounds.midX * 0.55), y: 0))
-            path3.apply(CGAffineTransform(translationX: -(bounds.midX * 0.55), y: 0))
+            let path2 = path.copy() as? UIBezierPath
+            let path3 = path.copy() as? UIBezierPath
+            path2!.apply(CGAffineTransform(translationX: (bounds.midX * 0.55), y: 0))
+            path3!.apply(CGAffineTransform(translationX: -(bounds.midX * 0.55), y: 0))
             self.append(path)
-            self.append(path2)
-            self.append(path3)
+            self.append(path2!)
+            self.append(path3!)
         default:
             self.append(path)
         }
