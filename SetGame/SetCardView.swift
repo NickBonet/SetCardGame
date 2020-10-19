@@ -12,9 +12,11 @@ import UIKit
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
     @IBInspectable private var shapeColor: UIColor = UIColor.red
-    private var shapeShade: SetCard.Shade = SetCard.Shade.striped
-    private var shape: SetCard.Shape = SetCard.Shape.squiggle
-    private var numberOfShapes = 1
+    private var card: SetCard? {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
     // Required initializers for subclassing UIView.
     public required init?(coder: NSCoder) {
@@ -26,18 +28,16 @@ import UIKit
     }
 
     // Initializer for setting card view properties from a SetCard.
-    public convenience init(frame: CGRect, _ card: SetCard, _ selected: Bool, _ matchState: MatchState) {
+    public convenience init(frame: CGRect, card: SetCard, selected: Bool, matchState: MatchState) {
         self.init(frame: frame)
-        updateCardView(card, selected, matchState)
+        updateCardView(newCard: card, selected: selected, matchState: matchState)
     }
 
     // Method to handle updating card view properties on init or redraw.
-    private func updateCardView(_ card: SetCard, _ selected: Bool, _ matchState: MatchState) {
-        self.shapeColor = setShapeColor(card.color)
+    public func updateCardView(newCard: SetCard, selected: Bool, matchState: MatchState) {
+        self.shapeColor = setShapeColor(newCard.color)
         self.borderColor = setBorderColor(selected, matchState)
-        self.shapeShade = card.shade
-        self.shape = card.shape
-        self.numberOfShapes = card.count
+        self.card = newCard
     }
 
     // Returns proper shape color depending on SetCard value.
@@ -57,7 +57,7 @@ import UIKit
         let shadePath = UIBezierPath()
         shadePath.append(path)
 
-        switch shapeShade {
+        switch card!.shade {
         case SetCard.Shade.filled:
             shapeColor.setFill()
         case SetCard.Shade.empty:
@@ -114,13 +114,13 @@ import UIKit
         roundRect.stroke()
 
         let path = UIBezierPath()
-        switch shape {
+        switch card!.shape {
         case SetCard.Shape.diamond:
-            path.drawDiamond(bounds, numberOfShapes)
+            path.drawDiamond(bounds, card!.count)
         case SetCard.Shape.oval:
-            path.drawOval(bounds, numberOfShapes)
+            path.drawOval(bounds, card!.count)
         case SetCard.Shape.squiggle:
-            path.drawSquiggle(bounds, numberOfShapes)
+            path.drawSquiggle(bounds, card!.count)
         }
 
         drawPath(path)

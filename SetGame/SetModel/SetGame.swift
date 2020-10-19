@@ -64,7 +64,7 @@ class SetGame {
             clearMatch()
         } else {
             score.changeScore(value: -1)
-            for _ in 1...3 where setCardsOnScreen.count < 24 { addCardToGame() }
+            for _ in 1...3 where setDeck.count > 0 { addCardToGame() }
             if setCardsSelected.count == 3 && !isSet() { clearMismatch() }
         }
     }
