@@ -12,6 +12,7 @@ import UIKit
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
     @IBInspectable private var shapeColor: UIColor = UIColor.red
+    private var cardCornerRadius: CGFloat = 9
     private var card: SetCard? {
         didSet {
             setNeedsDisplay()
@@ -102,10 +103,10 @@ import UIKit
 
     // Main draw method of the custom view.
     public override func draw(_ rect: CGRect) {
-        self.layer.cornerRadius = 15
+        self.layer.cornerRadius = cardCornerRadius
         self.clipsToBounds = true
 
-        let roundRect = UIBezierPath(roundedRect: bounds, cornerRadius: 15)
+        let roundRect = UIBezierPath(roundedRect: bounds, cornerRadius: cardCornerRadius)
         roundRect.addClip()
         roundRect.lineWidth = 4.5
         UIColor.white.setFill()

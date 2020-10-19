@@ -53,8 +53,8 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
+    // Handles updating game view state on each action.
     private func updateGameView() {
-        // TODO: Update for new card view.
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.count)")
         print("Cards left unselected: \(game.setCardsOnScreen.count)")
@@ -68,6 +68,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
 
+    // Manages state of the Deal 3 Cards button, only disabled when no cards left in deck.
     private func update3CardsButton() {
         if game.setDeck.count == 0 {
             addThreeCards.isEnabled = false
@@ -75,14 +76,14 @@ class ViewController: UIViewController {
         addThreeCards.alpha = (addThreeCards.isEnabled == true) ? 1 : 0.5
     }
 
+    // Handles keeping number of card views consistent with current cards on screen
+    // in the game model. Sets up tap gesture for them as well.
     private func createCards() {
-        // If new cards were added in the model, add more to the view as well.
-        // Works on initializing the view or when new cards are added in model.
         while game.setCardsOnScreen.count > setCardButtons.count {
             let cardIndex = setCardButtons.count
             let card = game.setCardsOnScreen[cardIndex]
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchCard(_:)))
-            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!,
+            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
                                           card: card, selected: false, matchState: MatchState.unchecked)
             setCardView.addGestureRecognizer(tapGesture)
             setCardButtons.append(setCardView)
@@ -90,15 +91,21 @@ class ViewController: UIViewController {
         }
     }
 
+    // Handles updating card views throughout the game, and removing them if needed when cards
+    // are running out.
     private func updateCards() {
-        // TODO: Remove card views if no more cards in the deck.
         createCards()
-        for cardIndex in setCardButtons.indices {
-            let card = game.setCardsOnScreen[cardIndex]
-            let cardView = setCardButtons[cardIndex]
-            cardView.frame = cardGrid[cardIndex]!
-            cardView.updateCardView(newCard: card, selected: game.isCardSelected(card),
-                                    matchState: game.isCardMatched(card))
+        for cardView in setCardButtons {
+            let cardIndex = setCardButtons.firstIndex(of: cardView)!
+            if game.setCardsOnScreen.indices.contains(cardIndex) {
+                let card = game.setCardsOnScreen[cardIndex]
+                cardView.frame = cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
+                cardView.updateCardView(newCard: card, selected: game.isCardSelected(card),
+                                        matchState: game.isCardMatched(card))
+            } else {
+                setCardButtons.remove(at: cardIndex)
+                cardView.removeFromSuperview()
+            }
         }
     }
 }
