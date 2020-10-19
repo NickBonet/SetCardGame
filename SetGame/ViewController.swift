@@ -17,8 +17,7 @@ class ViewController: UIViewController {
     private lazy var game = SetGame()
     private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5))
 
-    // Take care of some initialization here since it's called on controller creation.
-    // (First 12 cards, swipe down gesture for add 3 more, rotate gesture for shuffle)
+    // Take care of some gesture initialization here since it's called on controller creation.
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,8 +27,6 @@ class ViewController: UIViewController {
 
         let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(shuffleCards(_:)))
         self.view.addGestureRecognizer(rotateGesture)
-
-        updateGameView()
     }
 
     public override func viewDidLayoutSubviews() {
