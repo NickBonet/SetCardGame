@@ -15,14 +15,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var cardContainerView: UIView!
     private var setCardButtons = [SetCardVkew]()
     private lazy var game = SetGame()
-    private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5), frame: cardContainerView.bounds)
+    private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5))
 
     // Take care of some initialization here since it's called on controller creation.
     // (First 12 cards, swipe down gesture for add 3 more, rotate gesture for shuffle)
     public override func viewDidLoad() {
         super.viewDidLoad()
-        cardGrid.cellCount = game.setCardsOnScreen.count
-        createCards()
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(addThreeCards(_:)))
         swipeDownGesture.direction = .down
@@ -31,6 +29,12 @@ class ViewController: UIViewController {
         let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(shuffleCards(_:)))
         self.view.addGestureRecognizer(rotateGesture)
 
+        updateGameView()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cardGrid.frame = cardContainerView.bounds
         updateGameView()
     }
 
@@ -54,7 +58,6 @@ class ViewController: UIViewController {
         game.resetGame()
         setCardButtons.removeAll()
         cardContainerView.subviews.forEach({ $0.removeFromSuperview() })
-        cardGrid.cellCount = game.setCardsOnScreen.count
         updateGameView()
     }
 
@@ -63,16 +66,11 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
-    private func updateScoreLabel() {
-        scoreLabel.text = "Score: \(game.score)"
-    }
-
     // Handles updating game view state on each action.
     private func updateGameView() {
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.count)")
         print("Cards left unselected: \(game.setCardsOnScreen.count)")
-        cardGrid.cellCount = game.setCardsOnScreen.count
         updateCards()
         updateScoreLabel()
         update3CardsButton()
@@ -86,19 +84,8 @@ class ViewController: UIViewController {
         addThreeCards.alpha = (addThreeCards.isEnabled == true) ? 1 : 0.5
     }
 
-    // Handles keeping number of card views consistent with current cards on screen
-    // in the game model. Sets up tap gesture for them as well.
-    private func createCards() {
-        while game.setCardsOnScreen.count > setCardButtons.count {
-            let cardIndex = setCardButtons.count
-            let card = game.setCardsOnScreen[cardIndex]
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchCard(_:)))
-            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
-                                          card: card, selected: false, matchState: MatchState.unchecked)
-            setCardView.addGestureRecognizer(tapGesture)
-            setCardButtons.append(setCardView)
-            cardContainerView.addSubview(setCardView)
-        }
+    private func updateScoreLabel() {
+        scoreLabel.text = "Score: \(game.score)"
     }
 
     // Handles updating card views throughout the game, and removing them if needed when cards
@@ -116,6 +103,22 @@ class ViewController: UIViewController {
                 setCardButtons.remove(at: cardIndex)
                 cardView.removeFromSuperview()
             }
+        }
+    }
+
+    // Handles keeping number of card views consistent with current cards on screen
+    // in the game model. Sets up tap gesture for them as well.
+    private func createCards() {
+        cardGrid.cellCount = game.setCardsOnScreen.count
+        while game.setCardsOnScreen.count > setCardButtons.count {
+            let cardIndex = setCardButtons.count
+            let card = game.setCardsOnScreen[cardIndex]
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchCard(_:)))
+            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
+                                          card: card, selected: false, matchState: MatchState.unchecked)
+            setCardView.addGestureRecognizer(tapGesture)
+            setCardButtons.append(setCardView)
+            cardContainerView.addSubview(setCardView)
         }
     }
 }
