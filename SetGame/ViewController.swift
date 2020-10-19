@@ -10,20 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet private var setCardButtons: [UIButton]!
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet weak var addThreeCards: UIButton!
+    @IBOutlet weak var cardContainerView: UIView!
+    private var setCardButtons = [SetCardVkew]()
     private lazy var game = SetGame()
+    private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5), frame: cardContainerView.bounds)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(game.setCardsOnScreen.count)
+        cardGrid.cellCount = game.setCardsOnScreen.count
+        createCards()
         updateGameView()
     }
 
     @IBAction private func touchCard(_ sender: UIButton) {
-        if let cardNumber = setCardButtons.firstIndex(of: sender) {
-            game.cardTouched(at: cardNumber)
-        }
+        //if let cardNumber = setCardButtons.firstIndex(of: sender) {
+        //    game.cardTouched(at: cardNumber)
+        //}
         updateGameView()
     }
 
@@ -41,6 +46,7 @@ class ViewController: UIViewController {
         print("Cards in deck: \(game.setDeck.count)")
         print("Cards selected: \(game.setCardsSelected.count)")
         print("Cards left unselected: \(game.setCardsOnScreen.count)")
+        cardGrid.cellCount = game.setCardsOnScreen.count
         //renderCards()
         updateScoreLabel()
         update3CardsButton()
@@ -57,13 +63,12 @@ class ViewController: UIViewController {
         addThreeCards.alpha = (addThreeCards.isEnabled == true) ? 1 : 0.5
     }
 
-    private func renderCards() {
-        for index in setCardButtons.indices {
-            if game.setCardsOnScreen.indices.contains(index) {
-                let card = game.setCardsOnScreen[index]
-                //CardRender.renderButton(forCard: card, forButton: setCardButtons[index],
-                  //                      selected: game.isCardSelected(card), matched: game.isCardMatched(card))
-            } else { setCardButtons[index].isHidden = true }
+    private func createCards() {
+        for cardIndex in game.setCardsOnScreen.indices {
+            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!,
+                                          game.setCardsOnScreen[cardIndex], false, MatchState.unchecked)
+            setCardButtons.append(setCardView)
+            cardContainerView.addSubview(setCardView)
         }
     }
 }

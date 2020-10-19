@@ -14,7 +14,7 @@ import UIKit
     @IBInspectable private var shapeColor: UIColor = UIColor.red
     private var shapeShade: SetCard.Shade = SetCard.Shade.striped
     private var shape: SetCard.Shape = SetCard.Shape.squiggle
-    private var numberOfShapes = 3
+    private var numberOfShapes = 1
 
     // Required initializers for subclassing UIView.
     public required init?(coder: NSCoder) {
@@ -26,17 +26,22 @@ import UIKit
     }
 
     // Initializer for setting card view properties from a SetCard.
-    public convenience init(_ card: SetCard, _ selected: Bool, _ matchState: MatchState) {
-        self.init(frame: .zero)
-        self.shapeColor = getColor(card.color)
-        self.borderColor = getBorderColor(selected, matchState)
+    public convenience init(frame: CGRect, _ card: SetCard, _ selected: Bool, _ matchState: MatchState) {
+        self.init(frame: frame)
+        updateCardView(card, selected, matchState)
+    }
+
+    // Method to handle updating card view properties on init or redraw.
+    private func updateCardView(_ card: SetCard, _ selected: Bool, _ matchState: MatchState) {
+        self.shapeColor = setShapeColor(card.color)
+        self.borderColor = setBorderColor(selected, matchState)
         self.shapeShade = card.shade
         self.shape = card.shape
         self.numberOfShapes = card.count
     }
 
     // Returns proper shape color depending on SetCard value.
-    private func getColor(_ coloring: SetCard.Coloring) -> UIColor {
+    private func setShapeColor(_ coloring: SetCard.Coloring) -> UIColor {
         switch coloring {
         case SetCard.Coloring.red:
             return UIColor.red
@@ -76,7 +81,7 @@ import UIKit
 
     // Returns the proper color of border based on whether the current card view
     // is selected/part of a match or mismatch.
-    private func getBorderColor(_ selected: Bool, _ matched: MatchState) -> UIColor {
+    private func setBorderColor(_ selected: Bool, _ matched: MatchState) -> UIColor {
         if selected && matched == MatchState.matched {
             return UIColor.green
         } else if selected && matched == MatchState.unmatched {
