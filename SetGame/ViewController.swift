@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 
     // Take care of some initialization here since it's called on controller creation.
     // (First 12 cards, swipe down gesture for add 3 more)
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         cardGrid.cellCount = game.setCardsOnScreen.count
         createCards()
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
-    @IBAction private func touchCard(_ sender: UITapGestureRecognizer) {
+    @objc private func touchCard(_ sender: UITapGestureRecognizer) {
         if let card = sender.view as? SetCardVkew {
             if let cardNumber = setCardButtons.firstIndex(of: card) {
                 game.cardTouched(at: cardNumber)
