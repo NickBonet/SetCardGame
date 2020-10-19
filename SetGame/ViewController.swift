@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5), frame: cardContainerView.bounds)
 
     // Take care of some initialization here since it's called on controller creation.
-    // (First 12 cards, swipe down gesture for add 3 more)
+    // (First 12 cards, swipe down gesture for add 3 more, rotate gesture for shuffle)
     public override func viewDidLoad() {
         super.viewDidLoad()
         cardGrid.cellCount = game.setCardsOnScreen.count
@@ -27,6 +27,9 @@ class ViewController: UIViewController {
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(addThreeCards(_:)))
         swipeDownGesture.direction = .down
         self.view.addGestureRecognizer(swipeDownGesture)
+
+        let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(shuffleCards(_:)))
+        self.view.addGestureRecognizer(rotateGesture)
 
         updateGameView()
     }
@@ -40,6 +43,13 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
+    // Handles shuffling the cards on screen.
+    @objc private func shuffleCards(_ sender: UIRotationGestureRecognizer) {
+        game.setCardsOnScreen.shuffle()
+        updateGameView()
+    }
+
+    // Resets game model state and card views for new game.
     @IBAction private func startNewGame(_ sender: Any) {
         game.resetGame()
         setCardButtons.removeAll()
@@ -53,6 +63,10 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
+    private func updateScoreLabel() {
+        scoreLabel.text = "Score: \(game.score)"
+    }
+
     // Handles updating game view state on each action.
     private func updateGameView() {
         print("Cards in deck: \(game.setDeck.count)")
@@ -62,10 +76,6 @@ class ViewController: UIViewController {
         updateCards()
         updateScoreLabel()
         update3CardsButton()
-    }
-
-    private func updateScoreLabel() {
-        scoreLabel.text = "Score: \(game.score)"
     }
 
     // Manages state of the Deal 3 Cards button, only disabled when no cards left in deck.
