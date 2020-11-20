@@ -93,7 +93,9 @@ class ViewController: UIViewController {
             let cardIndex = setCardButtons.firstIndex(of: cardView)!
             if game.setCardsOnScreen.indices.contains(cardIndex) {
                 let card = game.setCardsOnScreen[cardIndex]
-                cardView.frame = cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
+                UIView.animate(withDuration: 0.5, animations: {
+                    cardView.frame = self.cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
+                })
                 cardView.updateCardView(newCard: card, selected: game.isCardSelected(card),
                                         matchState: game.isCardMatched(card))
             } else {
