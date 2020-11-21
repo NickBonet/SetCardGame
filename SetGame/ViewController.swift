@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet weak var addThreeCards: UIButton!
     @IBOutlet weak var cardContainerView: UIView!
-    private var setCardButtons = [SetCardVkew]()
+    private var setCardButtons = [SetCardView]()
     private lazy var game = SetGame()
     private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5))
 
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     }
 
     @objc private func touchCard(_ sender: UITapGestureRecognizer) {
-        if let card = sender.view as? SetCardVkew {
+        if let card = sender.view as? SetCardView {
             if let cardNumber = setCardButtons.firstIndex(of: card) {
                 game.cardTouched(at: cardNumber)
             }
@@ -113,7 +113,7 @@ class ViewController: UIViewController {
             let cardIndex = setCardButtons.count
             let card = game.setCardsOnScreen[cardIndex]
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchCard(_:)))
-            let setCardView = SetCardVkew(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
+            let setCardView = SetCardView(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
                                           card: card, selected: false, matchState: MatchState.unchecked)
             setCardView.addGestureRecognizer(tapGesture)
             setCardButtons.append(setCardView)

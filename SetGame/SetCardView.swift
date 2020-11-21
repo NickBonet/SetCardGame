@@ -1,5 +1,5 @@
 //
-//  SetCardVkew.swift
+//  SetCardView.swift
 //  SetGame
 //
 //  Created by Nicholas Bonet on 10/14/20.
@@ -8,11 +8,12 @@
 
 import UIKit
 
-@IBDesignable class SetCardVkew: UIView {
+@IBDesignable class SetCardView: UIView {
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
     @IBInspectable private var shapeColor: UIColor = UIColor.red
     private var cardCornerRadius: CGFloat = 5
+    private var isFaceUp = false
     private var card: SetCard? {
         didSet {
             setNeedsDisplay()
@@ -32,6 +33,14 @@ import UIKit
     public convenience init(frame: CGRect, card: SetCard, selected: Bool, matchState: MatchState) {
         self.init(frame: frame)
         updateCardView(newCard: card, selected: selected, matchState: matchState)
+    }
+
+    public func setFaceUp() {
+        isFaceUp = true
+    }
+
+    public func isCardFaceUp() -> Bool {
+        return isFaceUp
     }
 
     // Method to handle updating card view properties on init or redraw.
@@ -125,5 +134,21 @@ import UIKit
         }
 
         drawPath(path)
+    }
+}
+
+class SetCardBackView: UIView {
+    public override func draw(_ rect: CGRect) {
+        frame = bounds
+        self.layer.cornerRadius = 5
+        self.clipsToBounds = true
+
+        let roundRect = UIBezierPath(roundedRect: bounds, cornerRadius: 5)
+        roundRect.addClip()
+        roundRect.lineWidth = 4.5
+        UIColor.gray.setFill()
+        UIColor.gray.setStroke()
+        roundRect.fill()
+        roundRect.stroke()
     }
 }
