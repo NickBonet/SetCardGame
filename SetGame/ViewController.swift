@@ -12,8 +12,10 @@ class ViewController: UIViewController {
 
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet weak var addThreeCards: UIButton!
-    @IBOutlet weak var cardContainerView: UIView!
-    private var setCardButtons = [SetCardView]()
+    @IBOutlet weak var cardsOnScreenView: UIView!
+    private var setCardButtons = [UIView]()
+    private var setCardFrontViews = [SetCardFrontView]()
+    private var setCardBackViews = [SetCardBackView]()
     private lazy var game = SetGame()
     private lazy var cardGrid = Grid(layout: Grid.Layout.aspectRatio(1.5))
 
@@ -31,12 +33,13 @@ class ViewController: UIViewController {
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        cardGrid.frame = cardContainerView.bounds
+        cardGrid.frame = cardsOnScreenView.bounds
         updateGameView()
     }
 
+    // TODO: fix this with respect to container view
     @objc private func touchCard(_ sender: UITapGestureRecognizer) {
-        if let card = sender.view as? SetCardView {
+        if let card = sender.view as? SetCardFrontView {
             if let cardNumber = setCardButtons.firstIndex(of: card) {
                 game.cardTouched(at: cardNumber)
             }
@@ -54,7 +57,9 @@ class ViewController: UIViewController {
     @IBAction private func startNewGame(_ sender: Any) {
         game.resetGame()
         setCardButtons.removeAll()
-        cardContainerView.subviews.forEach({ $0.removeFromSuperview() })
+        setCardFrontViews.removeAll()
+        setCardBackViews.removeAll()
+        cardsOnScreenView.subviews.forEach({ $0.removeFromSuperview() })
         updateGameView()
     }
 
@@ -93,10 +98,22 @@ class ViewController: UIViewController {
             let cardIndex = setCardButtons.firstIndex(of: cardView)!
             if game.setCardsOnScreen.indices.contains(cardIndex) {
                 let card = game.setCardsOnScreen[cardIndex]
+                let frontCardView = setCardFrontViews[cardIndex]
+                let backCardView = setCardBackViews[cardIndex]
                 UIView.animate(withDuration: 0.5, animations: {
                     cardView.frame = self.cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
+                    frontCardView.frame = cardView.bounds
+                    backCardView.frame = cardView.bounds
+                }, completion: { _ in
+                    if !frontCardView.isCardFaceUp() {
+                        UIView.transition(from: backCardView, to: frontCardView, duration: 0.6,
+                                          options: [.transitionFlipFromLeft, .beginFromCurrentState], completion: { _ in
+                            frontCardView.setFaceUp()
+                            backCardView.removeFromSuperview()
+                        })
+                    }
                 })
-                cardView.updateCardView(newCard: card, selected: game.isCardSelected(card),
+                frontCardView.updateCardView(newCard: card, selected: game.isCardSelected(card),
                                         matchState: game.isCardMatched(card))
             } else {
                 setCardButtons.remove(at: cardIndex)
@@ -113,11 +130,17 @@ class ViewController: UIViewController {
             let cardIndex = setCardButtons.count
             let card = game.setCardsOnScreen[cardIndex]
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchCard(_:)))
-            let setCardView = SetCardView(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2),
+            let cardParentView = UIView(frame: cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2))
+            let setCardView = SetCardFrontView(frame: cardParentView.bounds,
                                           card: card, selected: false, matchState: MatchState.unchecked)
+            let setCardBackView = SetCardBackView(frame: cardParentView.bounds)
+            cardParentView.addSubview(setCardView)
+            cardParentView.addSubview(setCardBackView)
             setCardView.addGestureRecognizer(tapGesture)
-            setCardButtons.append(setCardView)
-            cardContainerView.addSubview(setCardView)
+            setCardButtons.append(cardParentView)
+            setCardFrontViews.append(setCardView)
+            setCardBackViews.append(setCardBackView)
+            cardsOnScreenView.addSubview(cardParentView)
         }
     }
 }

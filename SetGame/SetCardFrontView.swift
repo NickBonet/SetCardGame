@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class SetCardView: UIView {
+@IBDesignable class SetCardFrontView: UIView {
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
     @IBInspectable private var shapeColor: UIColor = UIColor.red
