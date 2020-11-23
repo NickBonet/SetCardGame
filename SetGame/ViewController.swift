@@ -37,10 +37,9 @@ class ViewController: UIViewController {
         updateGameView()
     }
 
-    // TODO: fix this with respect to container view
     @objc private func touchCard(_ sender: UITapGestureRecognizer) {
         if let card = sender.view as? SetCardFrontView {
-            if let cardNumber = setCardButtons.firstIndex(of: card) {
+            if let cardNumber = setCardFrontViews.firstIndex(of: card) {
                 game.cardTouched(at: cardNumber)
             }
         }
@@ -106,8 +105,7 @@ class ViewController: UIViewController {
                     backCardView.frame = cardView.bounds
                 }, completion: { _ in
                     if !frontCardView.isCardFaceUp() {
-                        UIView.transition(from: backCardView, to: frontCardView, duration: 0.6,
-                                          options: [.transitionFlipFromLeft, .beginFromCurrentState], completion: { _ in
+                        UIView.transition(from: backCardView, to: frontCardView, duration: 0.6, options: [.transitionFlipFromLeft, .beginFromCurrentState], completion: { _ in
                             frontCardView.setFaceUp()
                             backCardView.removeFromSuperview()
                         })
