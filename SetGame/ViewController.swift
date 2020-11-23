@@ -101,8 +101,7 @@ class ViewController: UIViewController {
                 let backCardView = setCardBackViews[cardIndex]
                 UIView.animate(withDuration: 0.5, animations: {
                     cardView.frame = self.cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
-                    frontCardView.frame = cardView.bounds
-                    backCardView.frame = cardView.bounds
+                    for subview in cardView.subviews { subview.frame = cardView.bounds }
                 }, completion: { _ in
                     if !frontCardView.isCardFaceUp() {
                         UIView.transition(from: backCardView, to: frontCardView, duration: 0.6, options: [.transitionFlipFromLeft, .beginFromCurrentState], completion: { _ in
@@ -115,6 +114,8 @@ class ViewController: UIViewController {
                                         matchState: game.isCardMatched(card))
             } else {
                 setCardButtons.remove(at: cardIndex)
+                setCardFrontViews.remove(at: cardIndex)
+                setCardBackViews.remove(at: cardIndex)
                 cardView.removeFromSuperview()
             }
         }
