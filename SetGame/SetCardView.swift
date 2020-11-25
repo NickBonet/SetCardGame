@@ -8,12 +8,16 @@
 
 import UIKit
 
-@IBDesignable class SetCardFrontView: UIView {
+@IBDesignable class SetCardView: UIView {
     // Defaults for the view when created. They're overriden once the view is initialized fully.
     @IBInspectable private var borderColor: UIColor = UIColor.white
     @IBInspectable private var shapeColor: UIColor = UIColor.red
     private var cardCornerRadius: CGFloat = 5
-    private var isFaceUp = false
+    private var isFaceUp = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     private var card: SetCard? {
         didSet {
             setNeedsDisplay()
@@ -33,10 +37,6 @@ import UIKit
     public convenience init(frame: CGRect, card: SetCard, selected: Bool, matchState: MatchState) {
         self.init(frame: frame)
         updateCardView(newCard: card, selected: selected, matchState: matchState)
-    }
-
-    public func setFaceUp() {
-        isFaceUp = true
     }
 
     public func isCardFaceUp() -> Bool {
@@ -110,8 +110,27 @@ import UIKit
         finalPath.stroke()
     }
 
-    // Main draw method of the custom view.
-    public override func draw(_ rect: CGRect) {
+    // Takes care of the flip animation for the card view.
+    public func flipCard() {
+        UIView.transition(with: self, duration: 0.6, options: [.transitionFlipFromLeft], animations: {
+            self.isFaceUp = true
+        })
+    }
+
+    private func drawBackOfCard() {
+        self.layer.cornerRadius = 5
+        self.clipsToBounds = true
+
+        let roundRect = UIBezierPath(roundedRect: bounds, cornerRadius: 5)
+        roundRect.addClip()
+        roundRect.lineWidth = 4.5
+        UIColor.gray.setFill()
+        UIColor.gray.setStroke()
+        roundRect.fill()
+        roundRect.stroke()
+    }
+
+    private func drawFrontOfCard() {
         self.layer.cornerRadius = cardCornerRadius
         self.clipsToBounds = true
 
@@ -135,20 +154,13 @@ import UIKit
 
         drawPath(path)
     }
-}
 
-class SetCardBackView: UIView {
+    // Main draw method of the custom view.
     public override func draw(_ rect: CGRect) {
-        frame = bounds
-        self.layer.cornerRadius = 5
-        self.clipsToBounds = true
-
-        let roundRect = UIBezierPath(roundedRect: bounds, cornerRadius: 5)
-        roundRect.addClip()
-        roundRect.lineWidth = 4.5
-        UIColor.gray.setFill()
-        UIColor.gray.setStroke()
-        roundRect.fill()
-        roundRect.stroke()
+        if !isFaceUp {
+            drawBackOfCard()
+        } else {
+            drawFrontOfCard()
+        }
     }
 }

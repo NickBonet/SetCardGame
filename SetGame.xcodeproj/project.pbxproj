@@ -15,7 +15,7 @@
 		261913382523FFB0007E0A05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 261913362523FFB0007E0A05 /* Main.storyboard */; };
 		2619133A2523FFB2007E0A05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 261913392523FFB2007E0A05 /* Assets.xcassets */; };
 		2620DC5D2528D7B20034639E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 2620DC5C2528D7B20034639E /* .swiftlint.yml */; };
-		268317CC253CA181003F32EB /* SetCardFrontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268317CB253CA181003F32EB /* SetCardFrontView.swift */; };
+		268317CC253CA181003F32EB /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268317CB253CA181003F32EB /* SetCardView.swift */; };
 		268317CE253CC182003F32EB /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268317CD253CC182003F32EB /* Grid.swift */; };
 		26F5D38A25259B310001C23A /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F5D38925259B310001C23A /* UIBezierPathExtensions.swift */; };
 		26FFFB662527EB9700BD0272 /* MatchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FFFB652527EB9700BD0272 /* MatchState.swift */; };
@@ -32,7 +32,7 @@
 		261913392523FFB2007E0A05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2619133E2523FFB2007E0A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2620DC5C2528D7B20034639E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = SetGame/.swiftlint.yml; sourceTree = "<group>"; };
-		268317CB253CA181003F32EB /* SetCardFrontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardFrontView.swift; sourceTree = "<group>"; };
+		268317CB253CA181003F32EB /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
 		268317CD253CC182003F32EB /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		26F5D38925259B310001C23A /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
 		26FFFB652527EB9700BD0272 /* MatchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchState.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 				261913342523FFB0007E0A05 /* ViewController.swift */,
 				268317CD253CC182003F32EB /* Grid.swift */,
 				26F5D38925259B310001C23A /* UIBezierPathExtensions.swift */,
-				268317CB253CA181003F32EB /* SetCardFrontView.swift */,
+				268317CB253CA181003F32EB /* SetCardView.swift */,
 				261913362523FFB0007E0A05 /* Main.storyboard */,
 				2619133E2523FFB2007E0A05 /* Info.plist */,
 			);
@@ -193,7 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				268317CC253CA181003F32EB /* SetCardFrontView.swift in Sources */,
+				268317CC253CA181003F32EB /* SetCardView.swift in Sources */,
 				2611278E25254D2200DC792A /* SetCard.swift in Sources */,
 				26F5D38A25259B310001C23A /* UIBezierPathExtensions.swift in Sources */,
 				26FFFB662527EB9700BD0272 /* MatchState.swift in Sources */,
