@@ -93,7 +93,7 @@ class ViewController: UIViewController {
             let cardIndex = setCardButtons.firstIndex(of: cardView)!
             if game.setCardsOnScreen.indices.contains(cardIndex) {
                 let card = game.setCardsOnScreen[cardIndex]
-                UIView.animate(withDuration: 0.5, animations: {
+                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
                     cardView.frame = self.cardGrid[cardIndex]!.insetBy(dx: 2, dy: 2)
                 }, completion: { _ in
                     if !cardView.isCardFaceUp() {
